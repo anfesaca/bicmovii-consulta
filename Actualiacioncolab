@@ -1,0 +1,146 @@
+# 🔥 BIC_MOVII — Cargue Diario a Firebase
+
+
+
+
+# ── CELDA 1: Instalar e inicializar ──────────────────────────
+!pip install firebase-admin pandas -q
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+import pandas as pd
+import json
+import time
+from datetime import datetime
+
+if not firebase_admin._apps:
+    cred = credentials.Certificate('bdbicmovi-firebase-adminsdk-fbsvc-c21dd1772e.json')
+    firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+print('✅ Firebase conectado')
+print('📅 Fecha:', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+
+
+
+
+# ── CELDA 2: Leer CSV ─────────────────────────────────────────
+df = pd.read_csv('BIC_MOVII - Consolidado.csv', dtype=str)
+df = df.fillna('')
+print(f'✅ CSV cargado: {len(df):,} filas | {len(df.columns)} columnas')
+print(f'📋 Columnas: {list(df.columns)}')
+df.head(3)
+
+
+# ── CELDA 3: Ver progreso actual ──────────────────────────────
+# Lee desde Firebase en qué fila se quedó el cargue
+
+PROGRESO_DOC = 'control/progreso_cargue'
+
+def get_progreso():
+    try:
+        doc = db.document(PROGRESO_DOC).get()
+        if doc.exists:
+            return doc.to_dict()
+        return {'ultima_fila': 0, 'total_subidas': 0, 'ultima_fecha': 'Nunca'}
+    except:
+        return {'ultima_fila': 0, 'total_subidas': 0, 'ultima_fecha': 'Nunca'}
+
+def guardar_progreso(fila, total_subidas):
+    db.document(PROGRESO_DOC).set({
+        'ultima_fila': fila,
+        'total_subidas': total_subidas,
+        'ultima_fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'total_csv': len(df),
+        'porcentaje': round((fila / len(df)) * 100, 2)
+    })
+
+progreso = get_progreso()
+INICIO = progreso['ultima_fila']
+TOTAL_CSV = len(df)
+
+print('=' * 50)
+print('📊 ESTADO DEL CARGUE')
+print('=' * 50)
+print(f'  Última fila subida  : {INICIO:,}')
+print(f'  Total en CSV        : {TOTAL_CSV:,}')
+print(f'  Pendientes          : {TOTAL_CSV - INICIO:,}')
+print(f'  Progreso            : {round((INICIO/TOTAL_CSV)*100, 1)}%')
+print(f'  Última ejecución    : {progreso["ultima_fecha"]}')
+print(f'  Días restantes aprox: {max(0, round((TOTAL_CSV - INICIO) / 20000))}')
+print('=' * 50)
+
+if INICIO >= TOTAL_CSV:
+    print('🎉 ¡CARGUE COMPLETO! Todos los registros están en Firebase.')
+else:
+    print(f'▶️  La próxima sesión subirá desde la fila {INICIO:,} hasta {min(INICIO+20000, TOTAL_CSV):,}')
+
+
+
+
+
+# ── CELDA 4: Ejecutar cargue del día ─────────────────────────
+# Sube automáticamente las siguientes 20,000 filas
+
+if INICIO >= TOTAL_CSV:
+    print('🎉 ¡Ya está todo cargado! No hay nada pendiente.')
+else:
+    LOTE = 500
+    FIN = min(INICIO + 20000, TOTAL_CSV)
+    filas = df.to_dict(orient='records')
+    
+    print(f'🚀 Iniciando cargue: filas {INICIO:,} → {FIN:,}')
+    print(f'📦 Total a subir hoy: {FIN - INICIO:,} registros')
+    print('-' * 50)
+    
+    exitosos = 0
+    errores = 0
+    inicio_tiempo = time.time()
+    
+    for i in range(INICIO, FIN, LOTE):
+        try:
+            batch = db.batch()
+            grupo = filas[i:i+LOTE]
+            
+            for fila in grupo:
+                ref = db.collection('BIC_MOVII').document()
+                batch.set(ref, fila)
+            
+            batch.commit()
+            exitosos += len(grupo)
+            
+            # Guardar progreso cada 2,000 filas
+            if exitosos % 2000 == 0:
+                guardar_progreso(i + len(grupo), progreso['total_subidas'] + exitosos)
+            
+            tiempo_transcurrido = time.time() - inicio_tiempo
+            velocidad = exitosos / tiempo_transcurrido if tiempo_transcurrido > 0 else 0
+            restantes = FIN - (i + len(grupo))
+            eta = restantes / velocidad if velocidad > 0 else 0
+            
+            print(f'  📦 {i + len(grupo):,}/{FIN:,} | '
+                  f'{round(((i+len(grupo)-INICIO)/(FIN-INICIO))*100)}% | '
+                  f'⚡ {round(velocidad)}/seg | '
+                  f'⏱ ETA: {round(eta/60, 1)} min')
+            
+            time.sleep(0.3)
+            
+        except Exception as e:
+            errores += 1
+            print(f'  ⚠️ Error en lote {i}: {e}')
+            time.sleep(2)  # Espera más si hay error
+    
+    # Guardar progreso final
+    guardar_progreso(FIN, progreso['total_subidas'] + exitosos)
+    
+    print('-' * 50)
+    print(f'✅ Sesión completada:')
+    print(f'   Subidas hoy   : {exitosos:,}')
+    print(f'   Errores       : {errores}')
+    print(f'   Total en Firebase: {progreso["total_subidas"] + exitosos:,}/{TOTAL_CSV:,}')
+    print(f'   Mañana empieza en fila: {FIN:,}')
+    
+    if FIN >= TOTAL_CSV:
+        print()
+        print('🎉 ¡CARGUE COMPLETO! Todos los registros están en Firebase.')
