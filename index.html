@@ -7,396 +7,82 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --red: #CC0000;
-      --red-dark: #a80000;
-      --red-light: #e60000;
-      --white: #ffffff;
-      --gray-bg: #f4f4f4;
-      --gray-light: #e8e8e8;
-      --gray-text: #555;
-      --black: #1a1a1a;
-      --success: #1a7a3c;
-      --warning: #b35a00;
+      --red: #CC0000; --red-dark: #a80000; --white: #ffffff;
+      --gray-bg: #f4f4f4; --gray-light: #e8e8e8; --gray-text: #555;
+      --black: #1a1a1a; --success: #1a7a3c; --warning: #b35a00;
     }
-
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--gray-bg);
-      color: var(--black);
-      min-height: 100vh;
-    }
-
-    /* ── HEADER BANNER ── */
+    body { font-family: 'Nunito', sans-serif; background: var(--gray-bg); color: var(--black); min-height: 100vh; }
     .banner {
       background: var(--red);
-      background-image:
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 18px,
-          rgba(255,255,255,0.04) 18px,
-          rgba(255,255,255,0.04) 36px
-        );
-      padding: 2rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-      min-height: 140px;
+      background-image: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(255,255,255,0.04) 18px, rgba(255,255,255,0.04) 36px);
+      padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between;
+      position: relative; overflow: hidden; min-height: 140px;
     }
-
-    .banner::after {
-      content: '';
-      position: absolute;
-      right: -60px; top: -60px;
-      width: 280px; height: 280px;
-      border-radius: 50%;
-      border: 40px solid rgba(255,255,255,0.07);
-    }
-
-    .banner-left {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      z-index: 1;
-    }
-
-    .check-icon {
-      width: 64px; height: 64px;
-      border: 3px solid rgba(255,255,255,0.5);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem;
-    }
-
-    .banner-title h1 {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.9);
-      line-height: 1.2;
-    }
-
-    .banner-title h2 {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--white);
-      letter-spacing: -0.02em;
-    }
-
-    .banner-icons {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      z-index: 1;
-      opacity: 0.6;
-      font-size: 3rem;
-    }
-
-    /* ── LOGO BAR ── */
-    .logo-bar {
-      background: var(--white);
-      padding: 0.6rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      border-bottom: 3px solid var(--red);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .logo-dav {
-      background: var(--red);
-      color: white;
-      font-weight: 900;
-      font-size: 0.85rem;
-      padding: 0.4rem 1rem;
-      border-radius: 6px;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── MAIN ── */
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 2rem;
-    }
-
-    /* ── SEARCH CARD ── */
-    .card {
-      background: var(--white);
-      border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-    }
-
-    .card-header {
-      background: var(--red);
-      color: white;
-      font-size: 1rem;
-      font-weight: 800;
-      padding: 0.75rem 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .card-body {
-      padding: 1.5rem;
-    }
-
-    .search-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 180px;
-      gap: 1.5rem;
-      align-items: end;
-      margin-bottom: 1.25rem;
-    }
-
-    .field label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--gray-text);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.4rem;
-    }
-
-    .field input, .field select {
-      width: 100%;
-      border: 1.5px solid var(--gray-light);
-      border-radius: 6px;
-      padding: 0.65rem 1rem;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem;
-      color: var(--black);
-      background: white;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .field input:focus, .field select:focus {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(204,0,0,0.1);
-    }
-
-    .field input::placeholder { color: #bbb; }
-
-    .btn-consultar {
-      background: var(--red);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 0.7rem 1.8rem;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: background 0.2s, transform 0.1s;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .btn-consultar:hover { background: var(--red-dark); transform: translateY(-1px); }
-    .btn-consultar:active { transform: translateY(0); }
-
-    .btn-limpiar {
-      background: white;
-      color: var(--red);
-      border: 1.5px solid var(--red);
-      border-radius: 6px;
-      padding: 0.7rem 1.5rem;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .btn-limpiar:hover { background: #fff0f0; }
-
-    .btn-row {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    /* ── STATS ── */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .stat {
-      background: white;
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      border-left: 4px solid var(--red);
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .stat-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--gray-text);
-    }
-
-    .stat-value {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--red);
-      letter-spacing: -0.02em;
-    }
-
-    /* ── TABLE ── */
-    .table-wrapper {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-    }
-
-    thead th {
-      background: #f0f0f0;
-      padding: 0.7rem 1rem;
-      text-align: left;
-      font-size: 0.7rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--gray-text);
-      border-bottom: 2px solid var(--red);
-      white-space: nowrap;
-    }
-
-    tbody tr { border-bottom: 1px solid #eee; transition: background 0.12s; }
-    tbody tr:hover { background: #fff5f5; }
-
-    tbody td {
-      padding: 0.7rem 1rem;
-      white-space: nowrap;
-      max-width: 180px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    td.credito { color: var(--red); font-weight: 700; }
-
-    .tag {
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      border-radius: 100px;
-      font-size: 0.7rem;
-      font-weight: 800;
-    }
-
-    .tag-101 { background: #e6f4ec; color: var(--success); }
-    .tag-102 { background: #fff3e6; color: var(--warning); }
-    .tag-perdio { background: #ffe6e6; color: var(--red); }
-    .tag-ok { background: #e6f4ec; color: var(--success); }
-
-    /* ── PAGINATION ── */
-    .pagination {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .page-info { font-size: 0.78rem; color: var(--gray-text); font-weight: 600; }
-
-    .page-btns { display: flex; gap: 0.4rem; }
-
-    .page-btn {
-      min-width: 32px; height: 32px;
-      border-radius: 6px;
-      border: 1.5px solid #ddd;
-      background: white;
-      color: var(--gray-text);
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 700;
-      font-family: 'Nunito', sans-serif;
-      padding: 0 0.5rem;
-      transition: all 0.15s;
-    }
-
-    .page-btn:hover:not(:disabled) { border-color: var(--red); color: var(--red); }
-    .page-btn.active { background: var(--red); color: white; border-color: var(--red); }
-    .page-btn:disabled { opacity: 0.3; cursor: default; }
-
-    /* ── STATES ── */
-    .state-box {
-      padding: 3.5rem;
-      text-align: center;
-      color: #aaa;
-    }
-
-    .state-box .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
-    .state-box p { font-size: 0.9rem; line-height: 1.6; color: var(--gray-text); }
-
-    .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid #eee;
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .notice {
-      background: #fff8e1;
-      border-left: 4px solid #f59e0b;
-      border-radius: 6px;
-      padding: 0.85rem 1.25rem;
-      font-size: 0.82rem;
-      color: #7a5200;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-
-    .notice code {
-      background: rgba(0,0,0,0.07);
-      padding: 0.1rem 0.4rem;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-
-    @media (max-width: 768px) {
-      .banner { padding: 1.5rem; min-height: auto; }
-      .banner-title h2 { font-size: 1.4rem; }
-      main { padding: 0 1rem; }
-      .search-grid { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: 1fr; }
+    .banner::after { content:''; position:absolute; right:-60px; top:-60px; width:280px; height:280px; border-radius:50%; border:40px solid rgba(255,255,255,0.07); }
+    .banner-left { display:flex; align-items:center; gap:1.5rem; z-index:1; }
+    .check-icon { width:64px; height:64px; border:3px solid rgba(255,255,255,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:white; }
+    .banner-title h1 { font-size:1.6rem; font-weight:400; color:rgba(255,255,255,0.9); line-height:1.2; }
+    .banner-title h2 { font-size:2rem; font-weight:900; color:var(--white); letter-spacing:-0.02em; }
+    .logo-bar { background:var(--white); padding:0.6rem 3rem; display:flex; align-items:center; justify-content:flex-end; border-bottom:3px solid var(--red); box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+    .logo-dav { background:var(--red); color:white; font-weight:900; font-size:0.85rem; padding:0.4rem 1rem; border-radius:6px; letter-spacing:0.05em; }
+    main { max-width:1200px; margin:2rem auto; padding:0 2rem; }
+    .card { background:var(--white); border-radius:10px; box-shadow:0 2px 12px rgba(0,0,0,0.08); overflow:hidden; margin-bottom:1.5rem; }
+    .card-header { background:var(--red); color:white; font-size:1rem; font-weight:800; padding:0.75rem 1.5rem; text-transform:uppercase; letter-spacing:0.05em; }
+    .card-body { padding:1.5rem; }
+    .search-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:end; margin-bottom:1.25rem; }
+    .field label { display:block; font-size:0.78rem; font-weight:700; color:var(--gray-text); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.4rem; }
+    .field input { width:100%; border:1.5px solid var(--gray-light); border-radius:6px; padding:0.65rem 1rem; font-family:'Nunito',sans-serif; font-size:0.95rem; color:var(--black); background:white; outline:none; transition:border-color 0.2s; }
+    .field input:focus { border-color:var(--red); box-shadow:0 0 0 3px rgba(204,0,0,0.1); }
+    .field input::placeholder { color:#bbb; }
+    .btn-consultar { background:var(--red); color:white; border:none; border-radius:6px; padding:0.7rem 1.8rem; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.95rem; cursor:pointer; display:inline-flex; align-items:center; gap:0.5rem; transition:background 0.2s,transform 0.1s; text-transform:uppercase; letter-spacing:0.04em; }
+    .btn-consultar:hover { background:var(--red-dark); transform:translateY(-1px); }
+    .btn-consultar:active { transform:translateY(0); }
+    .btn-limpiar { background:white; color:var(--red); border:1.5px solid var(--red); border-radius:6px; padding:0.7rem 1.5rem; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.2s; text-transform:uppercase; letter-spacing:0.04em; }
+    .btn-limpiar:hover { background:#fff0f0; }
+    .btn-row { display:flex; gap:1rem; align-items:center; }
+    .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .stat { background:white; border-radius:10px; padding:1rem 1.25rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-left:4px solid var(--red); display:flex; flex-direction:column; gap:0.2rem; }
+    .stat-label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray-text); }
+    .stat-value { font-size:1.6rem; font-weight:900; color:var(--red); letter-spacing:-0.02em; }
+    .table-wrapper { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+    thead th { background:#f0f0f0; padding:0.7rem 1rem; text-align:left; font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.07em; color:var(--gray-text); border-bottom:2px solid var(--red); white-space:nowrap; }
+    tbody tr { border-bottom:1px solid #eee; transition:background 0.12s; }
+    tbody tr:hover { background:#fff5f5; }
+    tbody td { padding:0.7rem 1rem; white-space:nowrap; max-width:180px; overflow:hidden; text-overflow:ellipsis; }
+    td.credito { color:var(--red); font-weight:700; }
+    .tag { display:inline-block; padding:0.2rem 0.6rem; border-radius:100px; font-size:0.7rem; font-weight:800; }
+    .tag-101 { background:#e6f4ec; color:var(--success); }
+    .tag-102 { background:#fff3e6; color:var(--warning); }
+    .tag-perdio { background:#ffe6e6; color:var(--red); }
+    .tag-ok { background:#e6f4ec; color:var(--success); }
+    .pagination { padding:1rem 1.5rem; border-top:1px solid #eee; display:flex; align-items:center; justify-content:space-between; }
+    .page-info { font-size:0.78rem; color:var(--gray-text); font-weight:600; }
+    .page-btns { display:flex; gap:0.4rem; }
+    .page-btn { min-width:32px; height:32px; border-radius:6px; border:1.5px solid #ddd; background:white; color:var(--gray-text); cursor:pointer; font-size:0.8rem; font-weight:700; font-family:'Nunito',sans-serif; padding:0 0.5rem; transition:all 0.15s; }
+    .page-btn:hover:not(:disabled) { border-color:var(--red); color:var(--red); }
+    .page-btn.active { background:var(--red); color:white; border-color:var(--red); }
+    .page-btn:disabled { opacity:0.3; cursor:default; }
+    .state-box { padding:3.5rem; text-align:center; color:#aaa; }
+    .state-box .icon { font-size:2.5rem; margin-bottom:0.75rem; }
+    .state-box p { font-size:0.9rem; line-height:1.6; color:var(--gray-text); }
+    .spinner { width:32px; height:32px; border:3px solid #eee; border-top-color:var(--red); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 1rem; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @media (max-width:768px) {
+      .banner { padding:1.5rem; min-height:auto; }
+      .banner-title h2 { font-size:1.4rem; }
+      main { padding:0 1rem; }
+      .search-grid { grid-template-columns:1fr; }
+      .stats-row { grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- BANNER -->
 <div class="banner">
   <div class="banner-left">
-    <div class="check-icon"></div>
+    <div class="check-icon">✔</div>
     <div class="banner-title">
       <h1>Consulta Bic Movi</h1>
       <h2>Bancaseguros</h2>
@@ -404,20 +90,12 @@
   </div>
 </div>
 
-<!-- LOGO BAR -->
 <div class="logo-bar">
   <span class="logo-dav">DAVIVIENDA</span>
-  <img src="URL_DEL_LOGO_DAVIVIENDA.png" alt="Logo Davivienda" width="100" height="auto">
-
 </div>
 
-<!-- MAIN -->
 <main>
 
-  <!-- Notice -->
-
-
-  <!-- Stats -->
   <div class="stats-row">
     <div class="stat">
       <span class="stat-label">Total registros</span>
@@ -433,7 +111,6 @@
     </div>
   </div>
 
-  <!-- Search Card -->
   <div class="card">
     <div class="card-header">Consulta</div>
     <div class="card-body">
@@ -446,9 +123,7 @@
           <label>ID</label>
           <input type="text" id="searchId" placeholder="Ej: 1010101010"/>
         </div>
-        <div>
-        </div>
-        
+      </div>
       <div class="btn-row">
         <button class="btn-consultar" onclick="buscar()">🔍 Consultar</button>
         <button class="btn-limpiar" onclick="limpiar()">Limpiar</button>
@@ -456,7 +131,6 @@
     </div>
   </div>
 
-  <!-- Results Card -->
   <div class="card">
     <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
       <span>Resultados</span>
@@ -500,25 +174,19 @@
 
 </main>
 
-<!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // ============================================================
-  // 🔧 REEMPLAZA CON TU CONFIGURACIÓN DE FIREBASE
-  // Firebase → ⚙️ Configuración → Tu app web
-  // ============================================================
   const firebaseConfig = {
-  apiKey: "AIzaSyCfdV_olWEZ4SOLLdOFTJmcO5qEd4ORd1M",
-  authDomain: "bdbicmovi.firebaseapp.com",
-  projectId: "bdbicmovi",
-  storageBucket: "bdbicmovi.firebasestorage.app",
-  messagingSenderId: "146899904757",
-  appId: "1:146899904757:web:c07958bab6e8887a26fdbc",
-  measurementId: "G-N67KZK6ERW"
-};
-  // ============================================================
+    apiKey: "AIzaSyCfdV_olWEZ4SOLLdOFTJmcO5qEd4ORd1M",
+    authDomain: "bdbicmovi.firebaseapp.com",
+    projectId: "bdbicmovi",
+    storageBucket: "bdbicmovi.firebasestorage.app",
+    messagingSenderId: "146899904757",
+    appId: "1:146899904757:web:c07958bab6e8887a26fdbc",
+    measurementId: "G-N67KZK6ERW"
+  };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -531,7 +199,6 @@
   window.buscar = async function() {
     const credito = document.getElementById("searchCredito").value.trim();
     const id = document.getElementById("searchId").value.trim();
-    const cf = document.getElementById("filterCF").value;
 
     if (!credito && !id) {
       alert("Por favor ingresa un Crédito o un ID.");
@@ -547,8 +214,7 @@
         : query(ref, where("ID", "==", id), limit(200));
 
       const snap = await getDocs(q);
-      let docs = snap.docs.map(d => d.data());
-      if (cf) docs = docs.filter(d => d.CF === cf);
+      const docs = snap.docs.map(d => d.data());
 
       resultados = docs;
       pagina = 1;
@@ -561,13 +227,20 @@
   };
 
   window.limpiar = function() {
-    ["searchCredito","searchId"].forEach(id => document.getElementById(id).value = "");
-    document.getElementById("filterCF").value = "";
-    resultados = []; pagina = 1;
+    document.getElementById("searchCredito").value = "";
+    document.getElementById("searchId").value = "";
+    resultados = [];
+    pagina = 1;
     document.getElementById("totalResults").textContent = "—";
     document.getElementById("resultLabel").textContent = "Ingresa un crédito o ID";
     document.getElementById("paginationBar").style.display = "none";
-    document.getElementById("tableBody").innerHTML = `<tr><td colspan="12"><div class="state-box"><div class="icon">🔍</div><p>Usa el buscador para consultar registros.</p></div></td></tr>`;
+    document.getElementById("tableBody").innerHTML = `
+      <tr><td colspan="12">
+        <div class="state-box">
+          <div class="icon">🔍</div>
+          <p>Usa el buscador para consultar registros.</p>
+        </div>
+      </td></tr>`;
   };
 
   window.irPagina = function(p) { pagina = p; renderTabla(); };
@@ -575,7 +248,13 @@
   function renderTabla() {
     const tbody = document.getElementById("tableBody");
     if (!resultados.length) {
-      tbody.innerHTML = `<tr><td colspan="12"><div class="state-box"><div class="icon">📭</div><p>No se encontraron registros.</p></div></td></tr>`;
+      tbody.innerHTML = `
+        <tr><td colspan="12">
+          <div class="state-box">
+            <div class="icon">📭</div>
+            <p>No se encontraron registros.</p>
+          </div>
+        </td></tr>`;
       document.getElementById("paginationBar").style.display = "none";
       return;
     }
@@ -603,39 +282,67 @@
 
     const bar = document.getElementById("paginationBar");
     bar.style.display = "flex";
-    document.getElementById("pageInfo").textContent = `Página ${pagina} de ${totalPags} — Mostrando ${ini+1} a ${fin} de ${total}`;
+    document.getElementById("pageInfo").textContent =
+      `Página ${pagina} de ${totalPags} — Mostrando ${ini+1} a ${fin} de ${total}`;
 
     const btns = document.getElementById("pageBtns");
     btns.innerHTML = "";
-    const prev = Object.assign(document.createElement("button"),{className:"page-btn",innerHTML:"←",disabled:pagina===1,onclick:()=>irPagina(pagina-1)});
+
+    const prev = document.createElement("button");
+    prev.className = "page-btn";
+    prev.innerHTML = "←";
+    prev.disabled = pagina === 1;
+    prev.onclick = () => irPagina(pagina - 1);
     btns.appendChild(prev);
-    for(let i=1;i<=totalPags;i++){
-      if(totalPags>7&&i>3&&i<totalPags-1&&Math.abs(i-pagina)>1){if(i===4)btns.insertAdjacentHTML("beforeend","<span style='padding:0 4px;color:#bbb'>…</span>");continue;}
-      const b = Object.assign(document.createElement("button"),{className:"page-btn"+(i===pagina?" active":""),textContent:i,onclick:()=>irPagina(i)});
+
+    for (let i = 1; i <= totalPags; i++) {
+      if (totalPags > 7 && i > 3 && i < totalPags - 1 && Math.abs(i - pagina) > 1) {
+        if (i === 4) btns.insertAdjacentHTML("beforeend", "<span style='padding:0 4px;color:#bbb'>…</span>");
+        continue;
+      }
+      const b = document.createElement("button");
+      b.className = "page-btn" + (i === pagina ? " active" : "");
+      b.textContent = i;
+      b.onclick = () => irPagina(i);
       btns.appendChild(b);
     }
-    const next = Object.assign(document.createElement("button"),{className:"page-btn",innerHTML:"→",disabled:pagina===totalPags,onclick:()=>irPagina(pagina+1)});
+
+    const next = document.createElement("button");
+    next.className = "page-btn";
+    next.innerHTML = "→";
+    next.disabled = pagina === totalPags;
+    next.onclick = () => irPagina(pagina + 1);
     btns.appendChild(next);
   }
 
   function mostrarCargando() {
-    document.getElementById("tableBody").innerHTML = `<tr><td colspan="12"><div class="state-box"><div class="spinner"></div><p>Consultando...</p></div></td></tr>`;
+    document.getElementById("tableBody").innerHTML = `
+      <tr><td colspan="12">
+        <div class="state-box"><div class="spinner"></div><p>Consultando...</p></div>
+      </td></tr>`;
     document.getElementById("paginationBar").style.display = "none";
   }
 
   function mostrarError(msg) {
-    document.getElementById("tableBody").innerHTML = `<tr><td colspan="12"><div class="state-box"><div class="icon">⚠️</div><p>Error: ${msg}</p></div></td></tr>`;
+    document.getElementById("tableBody").innerHTML = `
+      <tr><td colspan="12">
+        <div class="state-box"><div class="icon">⚠️</div><p>Error: ${msg}</p></div>
+      </td></tr>`;
   }
 
-  function fmt(f){ return f?(f+"").replace(" 00:00:00","").replace("T00:00:00.000Z",""):"—"; }
-  function fmtNum(n){ if(!n||n==="")return "—"; const v=parseFloat(n); return isNaN(v)?n:"$"+v.toLocaleString("es-CO"); }
+  function fmt(f) {
+    return f ? (f + "").replace(" 00:00:00", "").replace("T00:00:00.000Z", "") : "—";
+  }
 
-  document.getElementById("searchCredito").addEventListener("keydown",e=>e.key==="Enter"&&buscar());
-  document.getElementById("searchId").addEventListener("keydown",e=>e.key==="Enter"&&buscar());
+  function fmtNum(n) {
+    if (!n || n === "") return "—";
+    const v = parseFloat(n);
+    return isNaN(v) ? n : "$" + v.toLocaleString("es-CO");
+  }
+
+  document.getElementById("searchCredito").addEventListener("keydown", e => e.key === "Enter" && buscar());
+  document.getElementById("searchId").addEventListener("keydown", e => e.key === "Enter" && buscar());
 </script>
 
 </body>
-
 </html>
-
-
